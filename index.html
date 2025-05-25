@@ -256,6 +256,11 @@
             return diagonals;
         }
 
+        function getKey(faceName, square, face2) {
+            return `${faceName}-${square}-${face2}`;
+        }
+
+
         function getCrossFaceDiagonals(faceName, index) {
             const diagonals = [];
             const row = Math.floor(index / 3);
@@ -263,7 +268,64 @@
             
             // Convert 0-based index to 1-9 numbering for clarity
             const squareNumber = index + 1;
+
+            const squareFaceMap = new Map();
+            squareFaceMap.set('front-1-top', 6);
+            squareFaceMap.set('front-1-left', 6);
+            squareFaceMap.set('front-3-top', 6);
+            squareFaceMap.set('front-3-right', 6);
+            squareFaceMap.set('front-7-bottom', 6);
+            squareFaceMap.set('front-7-bottom', 6);
+            squareFaceMap.set('front-9-bottom', 6);
+            squareFaceMap.set('front-9-right', 6);
+
+            squareFaceMap.set('back-1-top', 4);
+            squareFaceMap.set('back-1-right', 6);
+            squareFaceMap.set('back-3-top', 6);
+            squareFaceMap.set('back-3-left', 4);
+            squareFaceMap.set('back-7-bottom', 4);
+            squareFaceMap.set('back-7-right', 6);
+            squareFaceMap.set('back-9-bottom', 4);
+            squareFaceMap.set('back-9-left', 4);
+
+            squareFaceMap.set('right-1-top', 2);
+            squareFaceMap.set('right-1-front', 6);
+            squareFaceMap.set('right-3-top', 2);
+            squareFaceMap.set('right-3-back', 4);
+            squareFaceMap.set('right-7-bottom', 8);
+            squareFaceMap.set('right-7-front', 6);
+            squareFaceMap.set('right-9-bottom', 8);
+            squareFaceMap.set('right-9-back', 4);
+
+            squareFaceMap.set('left-1-top', 8);
+            squareFaceMap.set('left-1-back', 6);
+            squareFaceMap.set('left-3-top', 8);
+            squareFaceMap.set('left-3-front', 4);
+            squareFaceMap.set('left-7-bottom', 2);
+            squareFaceMap.set('left-7-back', 6);
+            squareFaceMap.set('left-9-bottom', 2);
+            squareFaceMap.set('left-9-front', 4);
+
+            squareFaceMap.set('top-1-back', 2);
+            squareFaceMap.set('top-1-left', 2);
+            squareFaceMap.set('top-3-back', 2);
+            squareFaceMap.set('top-3-right', 2);
+            squareFaceMap.set('top-7-front', 2);
+            squareFaceMap.set('top-7-left', 2);
+            squareFaceMap.set('top-9-front', 2);
+            squareFaceMap.set('top-9-right', 2);
+
+            squareFaceMap.set('bottom-1-front', 8);
+            squareFaceMap.set('bottom-1-left', 8);
+            squareFaceMap.set('bottom-3-front', 8);
+            squareFaceMap.set('bottom-3-right', 8);
+            squareFaceMap.set('bottom-7-back', 8);
+            squareFaceMap.set('bottom-7-bottom', 8);
+            squareFaceMap.set('bottom-9-back', 8);
+            squareFaceMap.set('bottom-9-right', 8);
+
             
+
             // Scenario 1: Corner squares (1,3,7,9) - flip square 6 on adjacent faces
             if ([1, 3, 7, 9].includes(squareNumber)) {
                 const cornerMappings = {
@@ -307,7 +369,7 @@
 
                 if (cornerMappings[faceName] && cornerMappings[faceName][squareNumber]) {
                     cornerMappings[faceName][squareNumber].forEach(adjacentFace => {
-                        diagonals.push({ faceName: adjacentFace, index: 5 }); // square 6 (index 5)
+                        diagonals.push({ faceName: adjacentFace, index: squareFaceMap.get(getKey(faceName,squareNumber, adjacentFace)) }); // square 6 (index 5)
                     });
                 }
             }
