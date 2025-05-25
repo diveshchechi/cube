@@ -369,7 +369,7 @@
 
                 if (cornerMappings[faceName] && cornerMappings[faceName][squareNumber]) {
                     cornerMappings[faceName][squareNumber].forEach(adjacentFace => {
-                        diagonals.push({ faceName: adjacentFace, index: squareFaceMap.get(getKey(faceName,squareNumber, adjacentFace)) }); // square 6 (index 5)
+                        diagonals.push({ faceName: adjacentFace, index: squareFaceMap.get(getKey(adjacentFace,squareNumber,faceName )) -1}); // square 6 (index 5)
                     });
                 }
             }
