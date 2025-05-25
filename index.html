@@ -245,15 +245,15 @@
         // Get diagonal positions for a given position
         function getDiagonals(pos) {
             const diagonals = {
-                1: [5, 9],
+                1: [5],
                 2: [4, 6],
-                3: [5, 7],
+                3: [5],
                 4: [2, 8],
                 5: [1, 3, 7, 9],
                 6: [2, 8],
-                7: [3, 5],
+                7: [5],
                 8: [4, 6],
-                9: [1, 5]
+                9: [5]
             };
             return diagonals[pos] || [];
         }
@@ -265,46 +265,64 @@
             // Define the cross-face rules for each face acting as "front"
             const rules = {
                 front: {
-                    1: [{face: 'left', pos: 6}, {face: 'top', pos: 6}],
-                    2: [{face: 'top', pos: 3}, {face: 'top', pos: 9}],
+                    1: [{face: 'left', pos: 6}, {face: 'top', pos: 8}],
+                    2: [{face: 'top', pos: 7}, {face: 'top', pos: 9}],
+                    3: [{face: 'top', pos: 8}, {face: 'right', pos: 4}],
                     4: [{face: 'left', pos: 3}, {face: 'left', pos: 9}],
                     6: [{face: 'right', pos: 1}, {face: 'right', pos: 7}],
-                    8: [{face: 'bottom', pos: 3}, {face: 'bottom', pos: 9}]
+                    7: [{face: 'left', pos: 6}, {face: 'bottom', pos: 2}],
+                    8: [{face: 'bottom', pos: 3}, {face: 'bottom', pos: 1}],
+                    9: [{face: 'bottom', pos: 2}, {face: 'right', pos: 4}]
                 },
                 back: {
-                    1: [{face: 'right', pos: 6}, {face: 'top', pos: 4}],
-                    2: [{face: 'top', pos: 1}, {face: 'top', pos: 7}],
+                    1: [{face: 'right', pos: 6}, {face: 'top', pos: 2}],
+                    2: [{face: 'top', pos: 1}, {face: 'top', pos: 3}],
+                    3: [{face: 'top', pos: 2}, {face: 'right', pos: 4}],
                     4: [{face: 'right', pos: 3}, {face: 'right', pos: 9}],
                     6: [{face: 'left', pos: 1}, {face: 'left', pos: 7}],
-                    8: [{face: 'bottom', pos: 1}, {face: 'bottom', pos: 7}]
+                    7: [{face: 'right', pos: 6}, {face: 'bottom', pos: 8}],
+                    8: [{face: 'bottom', pos: 7}, {face: 'bottom', pos: 9}],
+                    9: [{face: 'bottom', pos: 8}, {face: 'left', pos: 4}]
                 },
                 left: {
-                    1: [{face: 'back', pos: 6}, {face: 'top', pos: 2}],
-                    2: [{face: 'top', pos: 1}, {face: 'top', pos: 3}],
+                    1: [{face: 'back', pos: 6}, {face: 'top', pos: 4}],
+                    2: [{face: 'top', pos: 1}, {face: 'top', pos: 7}],
+                    3: [{face: 'front', pos: 4}, {face: 'top', pos: 4}],
                     4: [{face: 'back', pos: 3}, {face: 'back', pos: 9}],
                     6: [{face: 'front', pos: 1}, {face: 'front', pos: 7}],
-                    8: [{face: 'bottom', pos: 1}, {face: 'bottom', pos: 3}]
+                    7: [{face: 'back', pos: 6}, {face: 'bottom', pos: 4}],
+                    8: [{face: 'bottom', pos: 1}, {face: 'bottom', pos: 7}],
+                    9: [{face: 'bottom', pos: 4}, {face: 'front', pos: 4}]
                 },
                 right: {
-                    1: [{face: 'front', pos: 6}, {face: 'top', pos: 8}],
+                    1: [{face: 'front', pos: 6}, {face: 'top', pos: 6}],
                     2: [{face: 'top', pos: 7}, {face: 'top', pos: 9}],
+                    3: [{face: 'back', pos: 4}, {face: 'top', pos: 6}],
                     4: [{face: 'front', pos: 3}, {face: 'front', pos: 9}],
                     6: [{face: 'back', pos: 1}, {face: 'back', pos: 7}],
-                    8: [{face: 'bottom', pos: 7}, {face: 'bottom', pos: 9}]
+                    7: [{face: 'front', pos: 6}, {face: 'bottom', pos: 4}],
+                    8: [{face: 'bottom', pos: 3}, {face: 'bottom', pos: 9}],
+                    9: [{face: 'bottom', pos: 6}, {face: 'back', pos: 4}]
                 },
                 top: {
                     1: [{face: 'left', pos: 2}, {face: 'back', pos: 2}],
-                    2: [{face: 'left', pos: 1}, {face: 'front', pos: 2}],
-                    4: [{face: 'back', pos: 1}, {face: 'front', pos: 1}],
-                    6: [{face: 'front', pos: 1}, {face: 'right', pos: 1}],
-                    8: [{face: 'front', pos: 2}, {face: 'right', pos: 2}]
+                    2: [{face: 'back', pos: 1}, {face: 'back', pos: 3}],
+                    3: [{face: 'back', pos: 2}, {face: 'right', pos: 2}],
+                    4: [{face: 'left', pos: 1}, {face: 'left', pos: 3}],
+                    6: [{face: 'right', pos: 1}, {face: 'right', pos: 3}],
+                    7: [{face: 'front', pos: 2}, {face: 'left', pos: 2}],
+                    8: [{face: 'front', pos: 1}, {face: 'front', pos: 3}],
+                    9: [{face: 'front', pos: 2}, {face: 'right', pos: 2}]
                 },
                 bottom: {
                     1: [{face: 'left', pos: 8}, {face: 'front', pos: 8}],
                     2: [{face: 'front', pos: 7}, {face: 'front', pos: 9}],
+                    3: [{face: 'right', pos: 8}, {face: 'front', pos: 8}],
                     4: [{face: 'left', pos: 7}, {face: 'left', pos: 9}],
                     6: [{face: 'right', pos: 7}, {face: 'right', pos: 9}],
-                    8: [{face: 'back', pos: 7}, {face: 'back', pos: 9}]
+                    7: [{face: 'right', pos: 7}, {face: 'right', pos: 9}],
+                    8: [{face: 'back', pos: 7}, {face: 'back', pos: 9}],
+                    9: [{face: 'left', pos: 8}, {face: 'back', pos: 8}]
                 }
             };
 
