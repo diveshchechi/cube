@@ -22,11 +22,20 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
+        
         #gameContainer {
             perspective: 1000px;
+            perspective: 1000px;
+            width: 500px;
             width: 400px;
+            height: 500px;
             height: 400px;
             margin: 20px 0;
+            margin: 20px 0;
+            cursor: grab;
+        }
+        #gameContainer:active {
+            cursor: grabbing;
         }
 
         #cube {
@@ -68,6 +77,8 @@
             font-size: 12px;
             font-weight: bold;
             color: #666;
+            position: relative;
+            z-index: 10;
         }
 
         .square:hover {
@@ -386,12 +397,21 @@
         }
 
         function handleMouseDown(e) {
+            // Check if clicking on a square
             // Only start rotation if not clicking on a square
+            if (e.target.classList.contains('square')) {
             if (!e.target.classList.contains('square')) {
+                return; // Let the square handle its own click
                 isMouseDown = true;
                 previousMousePosition = { x: e.clientX, y: e.clientY };
                 document.body.style.cursor = 'grabbing';
             }
+            }
+            
+            // Start rotation for any other click in the game container
+            isMouseDown = true;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+            e.preventDefault(); // Prevent text selection
         }
 
         function handleMouseMove(e) {
@@ -404,7 +424,7 @@
             rotationX -= deltaY * 0.5;
             
             // Limit X rotation to prevent flipping upside down completely
-            rotationX = Math.max(-90, Math.min(90, rotationX));
+            //rotationX = Math.max(-90, Math.min(90, rotationX));
             
             updateCubeRotation();
             
@@ -413,7 +433,7 @@
 
         function handleMouseUp() {
             isMouseDown = false;
-            document.body.style.cursor = 'default';
+            //document.body.style.cursor = 'default';
         }
 
         // Toggle cube rotation
