@@ -27,6 +27,22 @@
             font-size: 14px;
             z-index: 100;
         }
+        #resetButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 100;
+        }
+        #resetButton:hover {
+            background: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -34,6 +50,7 @@
         <div>Click squares to toggle them and their diagonal neighbors</div>
         <div>Drag to rotate the cube</div>
     </div>
+    <button id="resetButton" onclick="resetCube()">Reset Cube</button>
     <div id="container"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -164,6 +181,42 @@
                 faceName: faceName, 
                 index: index 
             };
+
+            // Add number text to the square
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 128;
+            const context = canvas.getContext('2d');
+            
+            // Clear canvas
+            context.fillStyle = 'rgba(0,0,0,0)';
+            context.fillRect(0, 0, 128, 128);
+            
+            // Draw number
+            context.fillStyle = '#808080'; // Grey color (halfway between white and black)
+            context.font = 'bold 60px Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillText((index + 1).toString(), 64, 64);
+            
+            // Create texture from canvas
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.needsUpdate = true;
+            
+            // Create text material
+            const textMaterial = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+            
+            // Create text plane slightly in front of the square
+            const textGeometry = new THREE.PlaneGeometry(0.8, 0.8);
+            const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+            textMesh.position.z = 0.001; // Slightly in front
+            
+            square.add(textMesh);
+            
             return square;
         }
 
@@ -367,6 +420,16 @@
                     toggleSquare(diagonal.faceName, diagonal.index);
                 });
             }
+        }
+
+        function resetCube() {
+            // Reset all cube states to white (false)
+            faceNames.forEach(faceName => {
+                for (let i = 0; i < 9; i++) {
+                    cubeState[faceName][i] = false;
+                    updateSquareColor(faceName, i);
+                }
+            });
         }
 
         function onWindowResize() {
